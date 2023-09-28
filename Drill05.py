@@ -17,22 +17,32 @@ def handle_events():
             running = False
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
-    pass
 
 
 def char_move():
-    pass
-
+    global x, y, hane_x, hand_
+    global frame
+    x1, y1 = x, y
+    x2, y2 = hand_x, hand_y
+    for i in range(0, 100 + 1, 3):
+        t = i / 100
+        x = (1 - t) * x1 + t * x2
+        y = (1 - t) * y1 + t * y2
+        clear_canvas()
+        TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
+        character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+        frame = (frame + 1) % 8
+        hand.draw(hand_x, hand_y)
+        update_canvas()
+        delay(0.05)
 
 running = True
+x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
+frame = 0
 
 while running:
-    clear_canvas()
-    TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-    hand.draw(random.randint(0, TUK_WIDTH), random.randint(0, TUK_HEIGHT))
-    delay(1)
+    hand_x, hand_y = random.randint(0, TUK_WIDTH), random.randint(0, TUK_HEIGHT)
     char_move()
-    update_canvas()
     handle_events()
 
 close_canvas()
