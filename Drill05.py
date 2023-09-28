@@ -20,7 +20,7 @@ def handle_events():
 
 
 def char_move():
-    global x, y, hane_x, hand_
+    global x, y, hand_x, hand_y
     global frame
     x1, y1 = x, y
     x2, y2 = hand_x, hand_y
@@ -30,11 +30,15 @@ def char_move():
         y = (1 - t) * y1 + t * y2
         clear_canvas()
         TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-        character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+        if 0 > x2 - x1:
+            character.clip_draw(frame * 100, 100 * 0, 100, 100, x, y)
+        elif 0 <= x2 - x1:
+            character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
         frame = (frame + 1) % 8
         hand.draw(hand_x, hand_y)
         update_canvas()
         delay(0.05)
+
 
 running = True
 x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
